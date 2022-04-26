@@ -3,7 +3,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
-group = 'com.github.nizwar'
+group = 'com.github.pyaehein'
 
 android {
     compileSdkVersion 30
