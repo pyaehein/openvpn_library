@@ -169,6 +169,12 @@ public class VPNHelper extends Activity {
 
         }
     };
+    
+    @Override
+    protected void onDestroy() {
+         super.onDestroy();
+         stopVPN();
+     }
 
     @Override
     public void onDetachedFromWindow() {
