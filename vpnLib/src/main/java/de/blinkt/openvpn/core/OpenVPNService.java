@@ -150,6 +150,12 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     };*/
 
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        this.stopSelf();
+    }
+
     private final IBinder mBinder = new LocalBinder();
     private static String state = "";
     boolean flag = false;
