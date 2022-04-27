@@ -362,9 +362,9 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             int notificationId = channel.hashCode();
 
-            mNotificationManager.notify(notificationId, notification);
+//            mNotificationManager.notify(notificationId, notification);
 
-            startForeground(notificationId, notification);
+//            startForeground(notificationId, notification);
 
             if (lastChannel != null && !channel.equals(lastChannel)) {
                 // Cancel old notification
