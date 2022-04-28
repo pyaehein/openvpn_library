@@ -266,7 +266,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         ProfileManager.setConntectedVpnProfileDisconnected(this);
         mOpenVPNThread = null;
         if (!mStarting) {
-            stopForeground(!mNotificationAlwaysVisible);
+//            stopForeground(!mNotificationAlwaysVisible);
 
             if (!mNotificationAlwaysVisible) {
                 stopSelf();
@@ -319,7 +319,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         nbuilder.setContentText(msg);
         nbuilder.setOnlyAlertOnce(true);
         nbuilder.setOngoing(true);
-//        nbuilder.setSmallIcon(R.drawable.ic_notification);
+        nbuilder.setSmallIcon(R.drawable.ic_notification);
         nbuilder.setContentIntent(pendingIntent);
 
         if (when != 0) nbuilder.setWhen(when);
@@ -347,9 +347,9 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             int notificationId = channel.hashCode();
 
-            mNotificationManager.notify(notificationId, notification);
+//            mNotificationManager.notify(notificationId, notification);
 
-            startForeground(notificationId, notification);
+//            startForeground(notificationId, notification);
 
             if (lastChannel != null && !channel.equals(lastChannel)) {
                 // Cancel old notification
@@ -1381,7 +1381,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
         int notificationId = channel.hashCode();
 
-        mNotificationManager.notify(notificationId, notification);
+//        mNotificationManager.notify(notificationId, notification);
     }
 
     //sending message to main activity
