@@ -14,7 +14,6 @@
         <!-- Begin Activity by ics-openvpn -->
         <service
             android:name=".core.OpenVPNService"
-            android:stopWithTask="false"
             android:exported="true"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
