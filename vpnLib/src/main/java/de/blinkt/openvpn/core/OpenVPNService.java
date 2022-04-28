@@ -153,12 +153,12 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
+        this.stopSelf();
         try {
             stopVPN(false);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        this.stopSelf();
     }
 
     private final IBinder mBinder = new LocalBinder();
@@ -308,76 +308,77 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     private void showNotification(final String msg, String tickerText, @NonNull String channel,
                                   long when, ConnectionStatus status, Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channel = createNotificationChannel(channel, channel + " Name");
-        } else {
-            // If earlier version channel ID is not used
-            // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
-            channel = "";
-        }
 
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        android.app.Notification.Builder nbuilder = new Notification.Builder(this);
-
-        int priority;
-        if (channel.equals(NOTIFICATION_CHANNEL_BG_ID))
-            priority = PRIORITY_MIN;
-        else if (channel.equals(NOTIFICATION_CHANNEL_USERREQ_ID))
-            priority = PRIORITY_MAX;
-        else
-            priority = PRIORITY_DEFAULT;
-
-        if (mProfile != null)
-            nbuilder.setContentTitle(getString(R.string.notifcation_title, mProfile.mName));
-        else
-            nbuilder.setContentTitle(getString(R.string.notifcation_title_notconnect));
-
-        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, launchIntent, PendingIntent.FLAG_IMMUTABLE);
-
-        nbuilder.setContentText(msg);
-        nbuilder.setOnlyAlertOnce(true);
-        nbuilder.setOngoing(true);
-        nbuilder.setSmallIcon(R.drawable.ic_notification);
-        nbuilder.setContentIntent(pendingIntent); 
-
-        if (when != 0) nbuilder.setWhen(when);
-
-        jbNotificationExtras(priority, nbuilder);
-        addVpnActionsToNotification(nbuilder);
-       
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            lpNotificationExtras(nbuilder, Notification.CATEGORY_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //noinspection NewApi
-            nbuilder.setChannelId(channel);
-            if (mProfile != null)
-                //noinspection NewApi
-                nbuilder.setShortcutId(mProfile.getUUIDString());
-
-        }
-
-        if (tickerText != null && !tickerText.equals(""))
-            nbuilder.setTicker(tickerText);
-        try {
-            Notification notification = nbuilder.build();
-
-            int notificationId = channel.hashCode();
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            channel = createNotificationChannel(channel, channel + " Name");
+//        } else {
+//            // If earlier version channel ID is not used
+//            // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html#NotificationCompat.Builder(android.content.Context)
+//            channel = "";
+//        }
+//
+//        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        android.app.Notification.Builder nbuilder = new Notification.Builder(this);
+//
+//        int priority;
+//        if (channel.equals(NOTIFICATION_CHANNEL_BG_ID))
+//            priority = PRIORITY_MIN;
+//        else if (channel.equals(NOTIFICATION_CHANNEL_USERREQ_ID))
+//            priority = PRIORITY_MAX;
+//        else
+//            priority = PRIORITY_DEFAULT;
+//
+//        if (mProfile != null)
+//            nbuilder.setContentTitle(getString(R.string.notifcation_title, mProfile.mName));
+//        else
+//            nbuilder.setContentTitle(getString(R.string.notifcation_title_notconnect));
+//
+//        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, launchIntent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        nbuilder.setContentText(msg);
+//        nbuilder.setOnlyAlertOnce(true);
+//        nbuilder.setOngoing(true);
+//        nbuilder.setSmallIcon(R.drawable.ic_notification);
+//        nbuilder.setContentIntent(pendingIntent);
+//
+//        if (when != 0) nbuilder.setWhen(when);
+//
+//        jbNotificationExtras(priority, nbuilder);
+//        addVpnActionsToNotification(nbuilder);
+//
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//            lpNotificationExtras(nbuilder, Notification.CATEGORY_SERVICE);
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            //noinspection NewApi
+//            nbuilder.setChannelId(channel);
+//            if (mProfile != null)
+//                //noinspection NewApi
+//                nbuilder.setShortcutId(mProfile.getUUIDString());
+//
+//        }
+//
+//        if (tickerText != null && !tickerText.equals(""))
+//            nbuilder.setTicker(tickerText);
+//        try {
+//            Notification notification = nbuilder.build();
+//
+//            int notificationId = channel.hashCode();
+//
 //            mNotificationManager.notify(notificationId, notification);
-
+//
 //            startForeground(notificationId, notification);
-
-            if (lastChannel != null && !channel.equals(lastChannel)) {
-                // Cancel old notification
-                mNotificationManager.cancel(lastChannel.hashCode());
-            }
-        } catch (Throwable th) {
-            Log.e(getClass().getCanonicalName(), "Error when show notification", th);
-        }
+//
+//            if (lastChannel != null && !channel.equals(lastChannel)) {
+//                // Cancel old notification
+//                mNotificationManager.cancel(lastChannel.hashCode());
+//            }
+//        } catch (Throwable th) {
+//            Log.e(getClass().getCanonicalName(), "Error when show notification", th);
+//        }
 
         // Check if running on a TV
 //        if (runningOnAndroidTV() && !(priority < 0))
