@@ -319,7 +319,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         nbuilder.setContentText(msg);
         nbuilder.setOnlyAlertOnce(true);
         nbuilder.setOngoing(true);
-        nbuilder.setSmallIcon(R.drawable.ic_notification);
+//        nbuilder.setSmallIcon(R.drawable.ic_notification);
         nbuilder.setContentIntent(pendingIntent);
 
         if (when != 0) nbuilder.setWhen(when);
@@ -347,7 +347,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
             int notificationId = channel.hashCode();
 
-//            mNotificationManager.notify(notificationId, notification);
+            mNotificationManager.notify(notificationId, notification);
 
             startForeground(notificationId, notification);
 
@@ -1335,7 +1335,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         Notification.Builder nbuilder = new Notification.Builder(this);
         nbuilder.setAutoCancel(true);
         int icon = android.R.drawable.ic_dialog_info;
-        nbuilder.setSmallIcon(icon);
+//        nbuilder.setSmallIcon(icon);
 
         Intent intent;
 
@@ -1381,7 +1381,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
         int notificationId = channel.hashCode();
 
-//        mNotificationManager.notify(notificationId, notification);
+        mNotificationManager.notify(notificationId, notification);
     }
 
     //sending message to main activity
